@@ -38,7 +38,6 @@ def home():
 @app.route("/send_email", methods=["GET", "POST"])
 def send_email():
     if request.method == "POST":
-        print("#"*20)
         print("request method running")
         # check if the post request has the file part 
         if "file" not in request.files:
@@ -68,21 +67,22 @@ def send_email():
 def email_text():
     # send audio file to speech_to_text 
     print('#'*20)
-    file_path = "audio/Audio.wav"
-    voice = SpeechToText(file_path)
-    text = voice.convertToText()
-    print('#'*20)
-    print(text)
-    model = Model()
-    res = model.run(text)
-    print(res)
+    # file_path = "audio/Audio.wav"
+    # voice = SpeechToText(file_path)
+    # text = voice.convertToText()
+    # print('#'*20)
+    # print(text)
+    # model = Model()
+    # res = model.run(text)
+    # print(res)
 
     # email = "mahaagro48@gmail.com"
     # subject = "leave for two days"
-    # body = voice
-    # res = {
-    #         "email": session.get("filename"), 
-    #         "subject": subject, 
-    #         "body": body
-    #     }
+    # body = "bla bla"
+    res = {
+            "function": "EMAIL",
+            "EMAILS": {"What are the email addresses?": "mahaagro",
+            "What is the email subject?": "bla bla", 
+            "What is the email content?": "bla bla" }
+        }
     return jsonify(res)

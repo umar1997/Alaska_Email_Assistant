@@ -94,15 +94,40 @@
       $.getJSON('/_email_text', {
 
       }, function(data) {
-        // if (data.)
-        $("#email").val(data.email);
-        $("#email").attr('readonly', false);
-        console.log(data.email)
-        $("#subject").val(data.subject);
-        $("#subject").attr('readonly', false);
-        console.log(data.subject)
-        $("#body").val(data.body);
-        $("#body").attr('readonly', false);
+        var body_text = $("#body");
+        var email_text = $("#email");
+        var subject_text = $("#subject");
+        var attachement = $("#attachement");
+        console.log("in here");
+        if (data.function == "COMMAND") {
+
+          if (data.COMMAND == "add signature") {
+            body_text.val( body_text.val() + "Best Regards \nUmar\n Mohamed Bin Zayed University of Artificall Intelligence" );
+          }
+          else if (data.COMMAND == "CLEAR EMAIL") {
+            // clear screen
+            email_text.val("");
+            body_text.val("");
+            subject_text.val("");
+          }
+          else if (data.COMMAND == "ADD ATTACHMENT") {
+            // open attachments here
+          }
+        }
+        
+        else if (data.function == "EMAIL") {
+          console.log("in here");
+          email_text.val(data["EMAILS"]["What are the email addresses?"]);
+          body_text.val(data["EMAILS"]["What is the email subject?"]);
+          subject_text.val(data["EMAILS"]["What is the email content?"]);
+          email_text.attr('readonly', false);
+          body_text.attr('readonly', false);
+          subject_text.attr('readonly', false);
+
+        }
+
+        
+        
       });
       return false;
      

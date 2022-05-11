@@ -39,13 +39,14 @@ class Model:
         bin_output = getPrediction(sentence, self.clf, self.count_vect, self.tfidf_transformer)
         if bin_output == 'Commands':
             command_output = getClassification(sentence, self.gloveEmbedding)
-            return {"COMMANDS": command_output}
+            return {"function": "COMMAND",
+                "COMMANDS": command_output}
         elif bin_output == 'Emails':
             answers = {}
             for q in self.questionList:
                 ans = extractAnswers(q, sentence, self.tokenizer, self.model)
                 answers[q] = ans
-            return {"EMAILS": answers}
+            return {"function": "EMAIL","EMAILS": answers}
         else:
             print('No Idea?')
 
