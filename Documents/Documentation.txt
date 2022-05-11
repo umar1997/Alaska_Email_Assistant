@@ -1,0 +1,67 @@
+################ ALASKA: INTELLIGENT EMAIL SYSTEM
+
+Path: 
+
+cd Desktop/Work/University/COURSES/NLP\ 703/Project/
+cd alaskaEnv/Scripts/
+source ./activatecd
+#################################### SPEECH-TO-TEXT
+We will use the Google Speech to Text API
+
+https://cloud.google.com/speech-to-text
+
+Pricing is Free for 60 minutes/month
+https://cloud.google.com/speech-to-text/pricing
+
+Request Limits
+- 1 Minute
+- 10 MB
+
+################################### API Management
+ALL API LIST
+https://console.cloud.google.com/apis/library/browse?project=alaska-email-assistant&q=cloud%20storage%20api
+
+
+1. Cloud Speech To Text API
+https://console.cloud.google.com/apis/library/speech.googleapis.com?project=alaska-email-assistant
+
+
+2. Cloud Storage API
+Google Enterprise API
+Lets you store and retrieve potentially-large, immutable data objects.
+
+
+3. Google Cloud Storage JSON API
+Google Enterprise API
+Lets you store and retrieve potentially-large, immutable data objects.
+
+
+4. Cloud Storage
+Google Enterprise API
+Google Cloud Storage is a RESTful service for storing and accessing your data on Google's infrastructure.
+
+
+
+pip install --upgrade google-cloud-speech
+
+#################################### SECURITY API KEY
+API & SERVICES >> CREDENTIALS >> CREATE CREDENTIALS >> SERVICE ACCOUNT
+FILL WITH ALASKA >> LEAVE EMPTY AND CONTINUE TILL ENTRY IN SERVICE ACCOUNT LIST
+CLICK EMAIL >> KEYS IN TAB >> CREATE NEW KEY JSON
+
+
+
+
+
+################################### DATASET
+https://data.world/brianray/enron-email-dataset
+https://github.com/Mithileysh/Email-Datasets
+
+
+################################### FINE-TUNING QA MODELS
+https://towardsdatascience.com/how-to-fine-tune-a-q-a-transformer-86f91ec92997
+
+
+################################## SPAN BERT
+https://github.com/facebookresearch/SpanBERT/tree/main/pretraining
+https://huggingface.co/mrm8488/spanbert-base-finetuned-squadv2

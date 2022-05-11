@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="/static/styles/index.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    {% block head %}
+    <title> {% block title %}{% endblock %} </title>
+    {% endblock %}
+
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Alaska</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="{{ url_for('home') }}">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Rules</a>
+            </li>
+            <!-- <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Dropdown
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" href="#">Action</a>
+                <a class="dropdown-item" href="#">Another action</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="#">Something else here</a>
+              </div>
+            </li> -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('send_email') }}">Send Email</a>
+            </li>
+          </ul>
+          <!-- <form class="form-inline my-2 my-lg-0">
+            <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+          </form> -->
+        </div>
+      </nav>
+
+    <div id="content" class="pt-5">{% block content %}{% endblock %}</div>
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <!-- <script>window.jQuery || document.write('<script src="{{ url_for('static', filename='jquery.js') }}">\x3C/script>')</script> -->
+  
+</body>
+<script>
+  navigator
+      .mediaDevices
+      .getUserMedia({audio: true})
+      .then(stream => { handlerFunction(stream) });
+
+  // $SCRIPT_ROOT = {{ request.script_root|tojson }};
+
+  $(document).ready(function() {
+    $('input[type!="button"][type!="submit"], select, textarea')
+         .val('')
+         .blur();
+  });
+
+  function handlerFunction(stream) {
+      rec = new MediaRecorder(stream);
+      rec.ondataavailable = e => {
+          audioChunks.push(e.data);
+          if (rec.state == "inactive") {
+              let blob = new Blob(audioChunks, {mimeType: 'audio/webm'});
+              // rec.stop()
+              sendData(blob);
+          }
+      }
+  }
+
+  $( "#stopRecording" ).click(function() {
+    console.log( "Handler for .click() called." );
+      $.getJSON('/_email_text', {
+
+      }, function(data) {
+        // if (data.)
+        $("#email").val(data.email);
+        $("#email").attr('readonly', false);
+        console.log(data.email)
+        $("#subject").val(data.subject);
+        $("#subject").attr('readonly', false);
+        console.log(data.subject)
+        $("#body").val(data.body);
+        $("#body").attr('readonly', false);
+      });
+      return false;
+     
+});
+
+
+  // $("#stopRecording").keypress(function() {
+  //    $('a#calculate').bind('click', function() {
+  //     console.log( "Handler for .keypress() called." );
+  //   //   $.getJSON($SCRIPT_ROOT + '/_add_numbers', {
+  //   //     a: $('input[name="a"]').val(),
+  //   //     b: $('input[name="b"]').val()
+  //   //   }, function(data) {
+  //   //     $("#result").text(data.result);
+  //   //   });
+  //   //   return false;
+  //   // });
+  // });
+  // function sendContent(data) {
+
+  // }
+
+  function sendData(data) {
+      var form = new FormData();
+      form.append('file', data, 'data.webm');
+      form.append('title', 'data.webm');
+      //Chrome inspector shows that the post data includes a file and a title.
+      $.ajax({
+          type: 'POST',
+          url: '/send_email',
+          data: form,
+          cache: false,
+          processData: false,
+          contentType: false
+      }).done(function(data) {
+          console.log(data);
+      });
+  }
+
+  startRecording.onclick = e => {
+      console.log('Recording is started..');
+      startRecording.disabled = true;
+      stopRecording.disabled = false;
+      audioChunks = [];
+      rec.start();
+  };
+
+  stopRecording.onclick = e => {
+      console.log("Recording is stopped.");
+      startRecording.disabled = false;
+      stopRecording.disabled = true;
+      rec.stop();
+  };
+</script>
+
+</html>
