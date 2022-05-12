@@ -43,4 +43,9 @@ flask run
 ### Model Architecture
 ![Results](Files/Architecture.png)
 ### Platform
-![Results](Files/Platform.jpeg)
+![image](https://user-images.githubusercontent.com/27766525/168147870-0e4d1d4d-6cf1-4999-a33d-07feb98b7a03.png)
+![image](https://user-images.githubusercontent.com/27766525/168147969-0196254d-e3fe-4652-83c9-9765d2d0ee30.png)
+### Email Successfully sent
+![image](https://user-images.githubusercontent.com/27766525/168148055-46a21a40-12fd-49d1-962f-0d8277ce2336.png)
+
+
