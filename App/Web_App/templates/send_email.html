@@ -5,12 +5,12 @@
 {% endblock %}
 {% block content %}
 <div class="email inputs">
-    <form>
+    <form action="/email_client" method="POST" enctype = "multipart/form-data">
         <div class="form-group">
             <div class="form-row d-flex justify-content-center">
                 <label for="email" class="col-md-2 col-form-label text-left">Email Adresses</label>
                 <div class="col-md-4">
-                  <input type="email" id="email" class="form-control" placeholder="Email" readonly>
+                  <input type="email" id="email" name="email" class="form-control" placeholder="Email" required >
                 </div>
             </div>
         </div>
@@ -18,7 +18,7 @@
             <div class="form-row d-flex justify-content-center">
                 <label for="subject" class="col-md-2 col-form-label text-left">Subject</label>
                 <div class="col-md-4">
-                  <input type="text" id="subject" class="form-control" placeholder="Subject" readonly>
+                  <input type="text" id="subject" class="form-control" name="subject" placeholder="Subject" >
                 </div>
             </div>
         </div>
@@ -26,7 +26,7 @@
             <div class="form-row d-flex justify-content-center">
                 <label for="body" class="col-md-2 col-form-label text-left">Body</label>
                 <div class="col-md-4">
-                  <textarea class="form-control" id="body" rows="7" placeholder="Body" readonly></textarea>
+                  <textarea class="form-control" id="body" rows="7" placeholder="Body" name="body" required ></textarea>
                 </div>
             </div>
         </div>
@@ -42,14 +42,22 @@
             <div class="custom-file">
                 <div class="form-row d-flex justify-content-center">
                     <div class="col-md-2">
-                        <input type="file" class="custom-file-input" id="attachement">
-                        <label class="custom-file-label" for="attachement">Choose file...</label>
+                        <input type="file" class="custom-file-input" name="attachement" id="attachement">
+                        <label class="custom-file-label"  for="attachement">Choose file...</label>
                     </div>
                 </div>
                 <!-- <div class="invalid-feedback">Example invalid custom file feedback</div> -->
-              </div>
+            </div>
             <!-- <label for="exampleFormControlFile1">Example file input</label>
             <input type="file" class="form-control-file" id="exampleFormControlFile1"> -->
+            <br>
+            <div class="form-row d-flex justify-content-sm-center">
+                <div class="col-md-2 col-form-label">
+                    <button type="submit" class="btn btn-dark" id="proceed">proceed</button>
+                <!-- <div class="col-md-4 col-form-label">
+                    <button type="submit" class="btn btn-dark">Stop Recording</button>
+                </div> -->
+            </div>
         </div>
         
       </form>

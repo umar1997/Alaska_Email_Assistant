@@ -24,11 +24,11 @@
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+            <li class="nav-item">
               <a class="nav-link" href="{{ url_for('home') }}">Home <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#">Rules</a>
+              <a class="nav-link" href="{{ url_for('rules') }}">Rules</a>
             </li>
             <!-- <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -98,25 +98,40 @@
         var email_text = $("#email");
         var subject_text = $("#subject");
         var attachement = $("#attachement");
-        console.log("in here");
+        var proceed = $("#proceed");
         if (data.function == "COMMAND") {
 
-          if (data.COMMAND == "add signature") {
-            body_text.val( body_text.val() + "Best Regards \nUmar\n Mohamed Bin Zayed University of Artificall Intelligence" );
+          console.log("Inside outer if statement")
+          if (data["COMMANDS"] == "ADD SIGNATURE") {
+            console.log("inside commands");
+            body_text.val( body_text.val() + "Best Regards \nUmar\nMohamed Bin Zayed University of Artificall Intelligence" );
+            body_text.attr('readonly', false);
           }
-          else if (data.COMMAND == "CLEAR EMAIL") {
+          else if (data["COMMANDS"] == "CLEAR EMAIL") {
             // clear screen
             email_text.val("");
             body_text.val("");
             subject_text.val("");
+            attachement.val("");
           }
-          else if (data.COMMAND == "ADD ATTACHMENT") {
+          else if (data["COMMANDS"] == "ADD ATTACHMENT") {
             // open attachments here
+            console.log("inside attachments")
+            attachement.trigger('click'); 
+          }
+          else if (data["COMMANDS"] == "CLEAR ATTACHMENT") {
+            // clear attachments here
+            console.log("inside clear attachments")
+            attachement.val(""); 
+          }
+          else if (data["COMMANDS"] == "PROCEED") {
+            // submit the form here
+            console.log("inside proceed")
+            proceed.trigger('click'); 
           }
         }
         
         else if (data.function == "EMAIL") {
-          console.log("in here");
           email_text.val(data["EMAILS"]["What are the email addresses?"]);
           body_text.val(data["EMAILS"]["What is the email subject?"]);
           subject_text.val(data["EMAILS"]["What is the email content?"]);
@@ -181,6 +196,10 @@
       stopRecording.disabled = true;
       rec.stop();
   };
+
+  
+
+
 </script>
 
 </html>

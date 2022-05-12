@@ -10,7 +10,7 @@ from email.message import EmailMessage
 
 # path = os.path.abspath('')
 # load_dotenv(os.path.join(path, '.env'))
-load_dotenv('./../Keys/.env')
+load_dotenv('./Keys/.env')
 
 MAIL_SECRET = os.getenv("MAIL_SECRET")
 EMAIL_ADDRESS = os.getenv("EMAIL_ADDRESS")

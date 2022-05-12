@@ -13,10 +13,12 @@ dir_path_models = os.path.dirname(os.path.realpath("./../../Models/"))
 sys.path.append(dir_path_models)
 
 from Utils.speechToText import SpeechToText
+from Utils.sendEmail import SendEmail
 from Models.models import Model
 # from Data_Processing.functions impor
 
 UPLOAD_FOLDER = "audio"
+ATTACHEMENT_FOLDER = "attachments"
 ALLOWED_EXTENSIONS = {"wav", "webm", "mp3"}
  
 
@@ -24,6 +26,7 @@ app = Flask(__name__)
 # set a random secret key 
 app.secret_key = b'^\x95\x9c\xf5p\x06\x05|b\xcb\xac\x8fO\xf2\x84\x91'
 app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
+app.config["ATTACHEMENT_FOLDER"] = ATTACHEMENT_FOLDER
 
 # helper function 
 def allowed_file(filename):
@@ -33,7 +36,28 @@ def allowed_file(filename):
 @app.route("/", methods=["GET"])
 @app.route("/home/", methods=["GET"])
 def home():
-    return render_template("base.html")
+    return render_template("home.html")
+
+@app.route("/email_client", methods=["POST"])
+def email_client():
+    email = request.form.get("email")
+    subject = request.form.get("subject")
+    body = request.form.get("body")
+    attachment = request.files["attachement"]
+    if email == "":
+        flash("please provide an email")
+        return redirect(url_for('send_email'))
+    if attachment.filename != "":
+        attachment.save(os.path.join(app.config["ATTACHEMENT_FOLDER"], attachment.filename))
+        email = SendEmail([email], subject, body, attachment)
+    else:
+        email = SendEmail([email], subject, body)
+    print("Email Sent")
+    return render_template("success.html")
+
+@app.route("/rules")
+def rules():
+    return render_template("rules.html")
 
 @app.route("/send_email", methods=["GET", "POST"])
 def send_email():
@@ -67,22 +91,22 @@ def send_email():
 def email_text():
     # send audio file to speech_to_text 
     print('#'*20)
-    # file_path = "audio/Audio.wav"
-    # voice = SpeechToText(file_path)
-    # text = voice.convertToText()
-    # print('#'*20)
-    # print(text)
-    # model = Model()
-    # res = model.run(text)
-    # print(res)
+    file_path = "audio/Audio.wav"
+    voice = SpeechToText(file_path)
+    text = voice.convertToText()
+    print('#'*20)
+    print(text)
+    model = Model()
+    res = model.run(text)
+    print(res)
 
     # email = "mahaagro48@gmail.com"
     # subject = "leave for two days"
     # body = "bla bla"
-    res = {
-            "function": "EMAIL",
-            "EMAILS": {"What are the email addresses?": "mahaagro",
-            "What is the email subject?": "bla bla", 
-            "What is the email content?": "bla bla" }
-        }
+    # res = {
+    #         "function": "EMAIL",
+    #         "EMAILS": {"What are the email addresses?": "mahaagro",
+    #         "What is the email subject?": "bla bla", 
+    #         "What is the email content?": "bla bla" }
+    #     }
     return jsonify(res)
