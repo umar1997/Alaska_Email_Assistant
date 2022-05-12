@@ -33,7 +33,7 @@ pip install -r requirements.txt
 ```shell
 python install.py
 ```
-4. Run Model
+4. Go to App >> Web App and Run Model
 ```shell
 flask run
 ```
